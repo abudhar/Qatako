@@ -1,15 +1,21 @@
 package com.hellokoding.springboot;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HelloController {
-    @RequestMapping("/hello")
-    public String hello(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
-        model.addAttribute("name", name);
-        return "hello";
-    }
+	@RequestMapping(path = "/", method = RequestMethod.GET)
+	public String home() {
+		return "index";
+	}
+	@RequestMapping(path = "/shopping", method = RequestMethod.GET)
+	public String shopping() {
+		return "shopping";
+	}
+	@RequestMapping(path = "/product", method = RequestMethod.GET)
+	public String product() {
+		return "product";
+	}
 }

@@ -1,10 +1,3 @@
-$(".after").click(function() {
-    $(".after i").toggleClass("fa-chevron-up");
-})
-
-$(".after-garage").click(function() {
-    $(".after-garage i").toggleClass("fa-chevron-up");
-})
 
 $(document).ready(function() {
 	const screenWidtht = window.screen.width;
@@ -31,6 +24,7 @@ $(document).ready(function() {
         // Example usage
         console.log('Screen Width:', screenWidth);
     });
+    
     
 });
 
@@ -63,3 +57,58 @@ function showHideSearch(id){
 function showVal(val, id){
     $("#"+id).html(val);
 }
+
+function fnValidateString(data){
+	if(null === data || "null" === data || "" === data || "undefined" === data || undefined === data){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function fetchVin(){
+        var vin =  $('#vinInput').val().trim();
+		let year = fnValidateString($("#yearId").val())?$("#yearId").val():"!";
+		let make = fnValidateString($("#makeId").val())?$("#makeId").val():"!";
+		let model= fnValidateString($("#modelId").val())?$("#modelId").val():"!";
+		let subModel= fnValidateString($("#subModelId").val())?$("#subModelId").val():"!";
+        if (vin !== '') {
+            var url = `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${vin}?format=json`;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async: false,
+                success: function(response) {
+                    console.log(response);
+                    var data = response;
+                    if (data.Results && data.Results.length > 0) {
+			            make = data.Results.find(function(item) {return item.VariableId === 26;}).Value; // Example: Make
+			            model = data.Results.find(function(item) {return item.VariableId === 28;}).Value; // Example: Model
+			            year = data.Results.find(function(item) {return item.VariableId === 29;}).Value; // Example: Year
+			
+			            console.log('Make:', make);
+			            console.log('Model:', model);
+			            console.log('Year:', year);
+			        } else {
+			            console.error('No results found for the VIN:', vin);
+			        }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', status, error);
+                    console.log('Error fetching VIN details. Please try again.');
+                }
+            });
+        } else {
+            console.log('Please enter a VIN.');
+        }
+	javascript:window.location.href='/shopping?make='+make+'&model='+model+'&year='+year+'&subModel='+subModel;
+}
+
+$(".after").click(function() {
+    $(".after i").toggleClass("fa-chevron-up");
+})
+
+$(".after-garage").click(function() {
+    $(".after-garage i").toggleClass("fa-chevron-up");
+})
