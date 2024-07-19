@@ -155,12 +155,11 @@ body {
 .carousel-top {
     position: absolute;
     z-index: 99;
-    width: 100%;
+    width: 93%;
     height: 100%;
-    background-color: #0000009c;
-    display: flex;
     justify-content: center;
     align-items: center;
+    padding: 5%;
 }
 
 .carousel-top h3 {
@@ -579,4 +578,18 @@ footer ul li a {
 }
 .card-body{
 	background: f2e6e6;
+}
+@media only screen and (max-width: 600px) {
+	.breakpoint-767 {
+		display: block !important; 
+	}
+	.shop-top-widgets .vehicle-filter-mobile-toggle {
+		display: none;
+	}
+	.shop-top-widgets .vehicle-filter {
+		display: block;
+	}
+	.carousel-top {
+		display: none;
+	}
 }
