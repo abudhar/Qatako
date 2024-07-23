@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -8,8 +9,6 @@
     <link href="https://enovathemes.com/mobex/wp-content/cache/autoptimize/css/autoptimize_single_559aad522bf23163fc06b7738f3858a5.css?ver=6.6" rel="stylesheet">
 </head>
 <body>
-
-
 	<%@include file="header.jsp" %>
     <!-- Background Carousel -->
 	<div class="container mt-3">
@@ -28,20 +27,11 @@
 									<div class="vf-item year">
 										<select name="year" data-select2-id="select2-data-25-8too" id="yearId"
 											tabindex="-1" class="select2"
-											aria-hidden="true"><option class="default" value="" i>Year</option>
-											<option value="2024">2024</option>
-											<option value="2023">2023</option>
-											<option value="2022">2022</option>
-											<option value="2021">2021</option>
-											<option value="2020">2020</option>
-											<option value="2019">2019</option>
-											<option value="2018">2018</option>
-											<option value="2017">2017</option>
-											<option value="2016">2016</option>
-											<option value="2015">2015</option>
-											<option value="2014">2014</option>
-											<option value="2013">2013</option>
-											<option value="2012">2012</option>
+											aria-hidden="true">
+											<option class="default" value="">Year</option>
+											<c:forEach var="entry" items="${years}">
+												<option value="${entry.key}">${entry.value}</option>
+								            </c:forEach>
 										</select>
 									</div>
 									<div class="vf-item make" data-attribute="make"
