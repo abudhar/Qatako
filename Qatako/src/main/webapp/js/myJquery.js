@@ -1,30 +1,11 @@
 
 $(document).ready(function() {
-	const screenWidtht = window.screen.width;
-    if(screenWidtht > 400){
-        console.log("screenWidth > 400");
-        $("#dummy-search-input-for-preact-render").show();
-    } else {
-        console.log("screenWidth < 400");
-        $("#dummy-search-input-for-preact-render").hide();
-    }
-    $(window).scroll(function() {
-        console.log(isDivVisible("search-header"));
-        const screenWidth = window.screen.width;
-       if (!isDivVisible("makeModelDivInner") && screenWidth > 946) {
-            console.log('User has scrolled past the div');
-            $("#makeModelDivInner").addClass("-fixed");
-            $("#goBtn").addClass("goButton");        
-        } else{
-            console.log('User can see the div');
-            $("#makeModelDivInner").removeClass("-fixed");
-            $("#goBtn").removeClass("goButton");
-        }   
-        
-        // Example usage
-        console.log('Screen Width:', screenWidth);
+	$(document).ajaxStart(function() {
+     	block();
     });
-    
+    $(document).ajaxComplete(function() {
+    	unblock();
+    }); 
     
 });
 
@@ -105,6 +86,73 @@ function fetchVin(){
 	javascript:window.location.href='/shopping?make='+make+'&model='+model+'&year='+year+'&subModel='+subModel;
 }
 
+function fetchMake(yearId){
+	$.ajax({
+	    url: aptPath + '/semaAPI/makeList',
+	    method: 'POST',
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    data: JSON.stringify({ year: yearId }),
+	    success: function(data) {
+	        var select = $('#makeId');
+	        select.empty();
+	        $.each(data.Makes, function (i, item) {
+			    select.append($('<option>', { 
+			        value: item.MakeID,
+			        text : item.MakeName 
+			    }));
+			});
+	    },
+	    error: function(error) {
+	        console.log('Error:', error);
+	    }
+	});
+}
+function fetchModel(makeId){
+	$.ajax({
+	    url: aptPath + '/semaAPI/modelList',
+	    method: 'POST',
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    data: JSON.stringify({ year: $("#yearId").val(), makeId: makeId}),
+	    success: function(data) {
+	        var select = $('#modelId');
+	        select.empty();
+	        $.each(data.Models, function (i, item) {
+			    select.append($('<option>', { 
+			        value: item.ModelID,
+			        text : item.ModelName 
+			    }));
+			});
+	    },
+	    error: function(error) {
+	        console.log('Error:', error);
+	    }
+	});
+}
+function fetchSubModel(modelId){
+	$.ajax({
+	    url: aptPath + '/semaAPI/subModelList',
+	    method: 'POST',
+	    contentType: 'application/json',
+	    dataType: 'json',
+	    data: JSON.stringify({ year: $("#yearId").val(), makeId: $("#makeId").val(), modelId: modelId }),
+	    success: function(data) {
+	        var select = $('#subModelId');
+	        select.empty();
+	        $.each(data.Submodels, function (i, item) {
+			    select.append($('<option>', { 
+			        value: item.SubmodelID,
+			        text : item.SubmodelName 
+			    }));
+			});
+	    },
+	    error: function(error) {
+	        console.log('Error:', error);
+	    }
+	});
+}
+
 $(".after").click(function() {
     $(".after i").toggleClass("fa-chevron-up");
 })
@@ -112,3 +160,10 @@ $(".after").click(function() {
 $(".after-garage").click(function() {
     $(".after-garage i").toggleClass("fa-chevron-up");
 })
+
+function block(){
+	$("#overlay").fadeIn(300);　
+}
+function unblock(){
+	$("#overlay").fadeOut(300);
+}

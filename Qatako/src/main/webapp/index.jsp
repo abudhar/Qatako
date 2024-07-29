@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,11 +10,13 @@
     <link href="https://enovathemes.com/mobex/wp-content/cache/autoptimize/css/autoptimize_single_559aad522bf23163fc06b7738f3858a5.css?ver=6.6" rel="stylesheet">
 </head>
 <body>
+	<script type="text/javascript">var aptPath = '<%= request.getContextPath() %>'</script> 
 	<%@include file="header.jsp" %>
     <!-- Background Carousel -->
 	<div class="container mt-3">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
 				<div class="elementor-widget-container">
 					<div class="et-vehicle-filter breakpoint-767 breakpoint-768-1023">
 						<div class="widget widget_product_vehicle_filter_widget">
@@ -25,60 +28,27 @@
 								<br>
 								<div class="atts">
 									<div class="vf-item year">
-										<select name="year" data-select2-id="select2-data-25-8too" id="yearId"
-											tabindex="-1" class="select2"
-											aria-hidden="true">
+										<select name="year" id="yearId" class="select2" onchange="fetchMake(this.value);">
 											<option class="default" value="">Year</option>
 											<c:forEach var="entry" items="${years}">
 												<option value="${entry.key}">${entry.value}</option>
 								            </c:forEach>
 										</select>
 									</div>
-									<div class="vf-item make" data-attribute="make"
-										data-label="Make">
-										<select name="make" data-select2-id="select2-data-19-32fs" tabindex="-1" class="select2" aria-hidden="true"  id="makeId">
+									<div class="vf-item make" data-attribute="make" data-label="Make">
+										<select name="make" class="select2" id="makeId" onchange="fetchModel(this.value);">
 											<option class="default" value="">Make</option>
-											<option value="BMW">BMW</option>
-											<option value="Bentley">Bentley</option>
-											<option value="Cadillac">Cadillac</option>
-											<option value="Chevrolet">Chevrolet</option>
-											<option value="Dodge">Dodge</option>
-											<option value="Ford">Ford</option>
-											<option value="Honda">Honda</option>
-											<option value="Hyundai">Hyundai</option>
-											<option value="Infiniti">Infiniti</option>
-											<option value="KIA">KIA</option>
-											<option value="Lamborghini">Lamborghini</option>
-											<option value="Lexus">Lexus</option>
-											<option value="Lincoln">Lincoln</option>
-											<option value="Maybach">Maybach</option>
-											<option value="Mazda">Mazda</option>
-											<option value="Mercedes-Benz">Mercedes-Benz</option>
-											<option value="Mitsubishi">Mitsubishi</option>
-											<option value="Nissan">Nissan</option>
-											<option value="Porsche">Porsche</option>
-											<option value="Rolls-Royce">Rolls-Royce</option>
-											<option value="Toyota">Toyota</option>
-											<option value="Volkswagen">Volkswagen</option>
-											<option value="Volvo">Volvo</option>
-											<option value="Audi">Audi</option>
 										</select>
 									</div>
 									<div class="vf-item model">
-										<select name="model" data-select2-id="select2-data-22-bvgl"
-											tabindex="-1" class="select2"
-											aria-hidden="true">
-											<option class="default" value="" id="modelId">Model</option>
-											<option value="S4">S4</option>
+										<select name="model" class="select2" onchange="fetchSubModel(this.value);" id="modelId">
+											<option class="default" value="" >Model</option>
 										</select>
 									</div>
 
 									<div class="vf-item engine">
-										<select name="engine" data-select2-id="select2-data-28-o8cl"
-											tabindex="-1" class="select2"
-											aria-hidden="true">
-											<option class="default" value="" id="subModelId">Sub-Model</option>
-											<option value="3" >3</option>
+										<select name="subModel" class="select2" onchange="fetchProduct(this.value);" id="subModelId">
+											<option class="default" value="">Sub-Model</option>
 										</select>
 									</div>
 								</div>
@@ -94,6 +64,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-md-2"></div>
 		</div>	
 		<div class="row">
 			<div class="col-md-12">
@@ -636,7 +607,7 @@
                 </div>
             </div>
             <div class=" bg-dark py-4" id="copyright-footer">
-                <span class="text-secondary pl-3 mb-0">Copyright © 2003-2021 qatako.com. All rights reserved.</span>
+                <span class="text-secondary pl-3 mb-0">Copyright Â© 2003-2021 qatako.com. All rights reserved.</span>
                 <span class=" float-right px-3">
                     <a href="#">privacy policy</a>
                     <a href="#">sitemap</a>
@@ -644,7 +615,7 @@
             </div>
         </div>
     </footer>
-
+	<div id="overlay"><div class="cv-spinner"><span class="spinner"></span></div></div>
 
 </body>
 <script type="text/javascript">

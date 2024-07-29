@@ -4,6 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Model {
+	@JsonProperty("BaseVehicleID")
+	private int baseVehicleID;
+	
+	@JsonProperty("ModelID")
+	private int modelID;
+	
+	@JsonProperty("ModelName")
+	private String modelName;
+
 	public int getBaseVehicleID() {
 		return baseVehicleID;
 	}
@@ -28,12 +37,4 @@ public class Model {
 		this.modelName = modelName;
 	}
 
-	@JsonProperty("BaseVehicleID")
-	private int baseVehicleID;
-	
-	@JsonProperty("ModelID")
-	private int modelID;
-	
-	@JsonProperty("ModelName")
-	private String modelName;
 }

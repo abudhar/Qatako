@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>Qatako-قطعكو – لجميع منتجات وقطع غيار السيارات</title>
 <style>
     
@@ -73,7 +74,7 @@
                         <h5>Product information</h5>
                         <ul>
                             <li>Weight: 3 kg</li>
-                            <li>Dimensions: 235X55X32cm</li>
+                            <li>Dimensions: 235XÂ55XÂ32cm</li>
                             <li>Brand: YATO</li>
                             <li>Condition: New</li>
                             <li>Manufacturer part number: 447K0104</li>
