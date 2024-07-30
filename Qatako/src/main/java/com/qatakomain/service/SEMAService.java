@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,12 +30,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qatakomain.model.BranddatasetsList;
 import com.qatakomain.model.Home;
 import com.qatakomain.model.Make;
 import com.qatakomain.model.MakeList;
 import com.qatakomain.model.ModelList;
+import com.qatakomain.model.Partbrands;
 import com.qatakomain.model.Product;
 import com.qatakomain.model.ProductBean;
+import com.qatakomain.model.ProductList;
 import com.qatakomain.model.SubModelList;
 import com.qatakomain.model.Submodel;
 import com.qatakomain.model.Years;
@@ -71,22 +75,71 @@ public class SEMAService {
 	}
 	
 	
-	public ProductBean getProduct() {
+	public ProductBean getProductDetails() {
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("token", tokenManager.getToken());
         formData.add("PIESVersion", "6.7");
-        formData.add("AAIA_BrandId", "BBVR");
+        ArrayList<String> brands = getBrands();
+        brands.stream().forEach(brand -> {
+        	formData.add("AAIA_BrandId", brand);
+        });
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
 
         ResponseEntity<Product> response = semaAPI.postForEntity(SemaTokenManager.baseURL +"/export/piesexport", requestEntity, Product.class);
         String piesexport = response.getBody().getPiesexport();
-        
 		return xmlToBean(piesexport);
 
+	}
+	
+	public ProductBean getProductDetails(String partNumber, String brandId) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("token", tokenManager.getToken());
+		formData.add("PIESVersion", "6.7");
+		formData.add("AAIA_BrandId", brandId);
+		formData.add("partNumbers", partNumber);
+		
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+		
+		ResponseEntity<Product> response = semaAPI.postForEntity(SemaTokenManager.baseURL +"/export/piesexport", requestEntity, Product.class);
+		String piesexport = response.getBody().getPiesexport();
+		return xmlToBean(piesexport);
+		
+	}
+	
+	public List<Partbrands> getProducts(String baseVehicleId) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		
+		MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("token", tokenManager.getToken());
+		formData.add("BaseVehicleID", baseVehicleId);
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
+		
+		ResponseEntity<ProductList> response = semaAPI.postForEntity(SemaTokenManager.baseURL +"/lookup/productsbyvehicleengine", requestEntity, ProductList.class);
+		List<Partbrands> piesexport = response.getBody().getPartbrands();
+		piesexport = piesexport.stream().limit(10).collect(Collectors.toList());
+		piesexport.forEach(product -> {
+			product.setPiesDetails(getProductDetails(product.getPartnumber(), product.getBrandaaiaid()));
+		});
+		return piesexport;
+		
+	}
+	
+	public ArrayList<String> getBrands() {
+		String url = buildUrl(SemaTokenManager.baseURL + "/export/branddatasets", 
+				"token", tokenManager.getToken());
+		logger.info("Url : {}", url);
+		BranddatasetsList brandDataList = semaAPI.getForObject(url, BranddatasetsList.class);
+		ArrayList<String> brands = new ArrayList<>();
+		brandDataList.getBranddatasets().stream().forEach(brand -> { brands.add(brand.getAaiabrandid());});
+		return brands;
 	}
 	
 	public MakeList getMake(Home home, HttpSession session) {
@@ -171,13 +224,13 @@ public class SEMAService {
 		ProductBean result = new ProductBean();
 		JSONObject xmlJSONObj = XML.toJSONObject(xmlString);
         String jsonPrettyPrintString = xmlJSONObj.toString();
+        logger.info("Json : {}", jsonPrettyPrintString);
         try {
         	ObjectMapper objectMapper = new ObjectMapper();
     		return objectMapper.readValue(jsonPrettyPrintString, ProductBean.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		logger.info("Json : {}", jsonPrettyPrintString);
 		return result;
 	}
 	
@@ -205,19 +258,20 @@ public class SEMAService {
 	@SuppressWarnings("unchecked")
 	public void setDropdowns(Home home, Model model, HttpSession session) {
 		Map<String, String> map = new LinkedHashMap<>();
-		model.addAttribute("years", getYear());
 		map = session.getAttribute("makeList") != null ?(Map<String, String>) session.getAttribute("makeList") : null;
-		if(map.isEmpty()) {
+		if(home.getYear() != null && map == null) {
+			map = new LinkedHashMap<>();
 			MakeList makeList = getMake(home, session);
 			for(Make make: makeList.getMakes()) {
 				map.put(""+make.getMakeID(), make.getMakeName());
 			}
 		}
 		model.addAttribute("makeList", map);
-		model.addAttribute("logo", map.get(home.getMake())+".png");
+		model.addAttribute("logo", map.get(home.getMake()).toLowerCase()+".png");
 		map = new LinkedHashMap<>();
 		map  = session.getAttribute("modelList") != null ?(Map<String, String>) session.getAttribute("modelList") : null;
-		if(map.isEmpty()) {
+		if(home.getYear() != null && home.getMake() != null && map == null) {
+			map = new LinkedHashMap<>();
 			ModelList modelList = getModel(home, session);
 			for(com.qatakomain.model.Model models: modelList.getModels()) {
 				map.put(""+models.getModelID(), models.getModelName());
@@ -226,7 +280,8 @@ public class SEMAService {
 		model.addAttribute("modelList", map);
 		map = new LinkedHashMap<>();
 		map  = session.getAttribute("subModelList") != null ?(Map<String, String>) session.getAttribute("subModelList") : null;
-		if(map.isEmpty()) {
+		if(home.getYear() != null && home.getMake() != null && home.getModel() != null && map == null) {
+			map = new LinkedHashMap<>();
 			SubModelList subModelList = getSubModel(home, session);
 			for(Submodel subModels: subModelList.getSubmodels()) {
 				map.put(""+subModels.getSubmodelID(), subModels.getSubmodelName());

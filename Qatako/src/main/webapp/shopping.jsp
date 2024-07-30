@@ -7,9 +7,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Qatako-قطعكو – لجميع منتجات وقطع غيار السيارات</title>
-	<link href="https://enovathemes.com/mobex/wp-content/cache/autoptimize/css/autoptimize_single_559aad522bf23163fc06b7738f3858a5.css?ver=6.6" rel="stylesheet">
+    <link rel="stylesheet" href="Css/autoptimize_single_559aad522bf23163fc06b7738f3858a5.css" />
 </head>
 <body>
+	<style>
+		.vehicle-filter input,.vehicle-filter select {
+		    margin: 0; 
+		    width: 100% !important
+		}
+	</style>
+	<script type="text/javascript">var aptPath = '<%= request.getContextPath() %>'</script> 
 	<%@include file="header.jsp" %>
    <div class="container mt-4">
     <nav aria-label="breadcrumb">
@@ -119,7 +126,7 @@
 					                        &nbsp;&nbsp;
 					                        &nbsp;&nbsp;
 					                        <form:select path="make" id="makeId" cssClass="select2 dropdown">
-					                            <option class="default" value="!">Make</option>
+					                            <option class="default" value="">Make</option>
 									            <c:forEach var="entry" items="${makeList}">
 									                <form:option value="${entry.key}">${entry.value}</form:option>
 									            </c:forEach>
@@ -128,7 +135,7 @@
 					                    <div class="vf-item year"></div>
 					                    <div class="vf-item model">
 					                        <select name="model" id="modelId" class="select2 dropdown">
-					                            <option class="default" value="!">Model</option>
+					                            <option class="default" value="">Model</option>
 					                            <c:forEach var="entry" items="${modelList}">
 													<option value="${entry.key}">${entry.value}</option>
 									            </c:forEach>
@@ -136,7 +143,7 @@
 					                        &nbsp;&nbsp;
 					                        &nbsp;&nbsp;
 					                        <select name="submodel" id="subModelId" class="select2 dropdown">
-					                            <option class="default" value="!">Sub-Model</option>
+					                            <option class="default" value="">Sub-Model</option>
 					                            <c:forEach var="entry" items="${subModelList}">
 													<option value="${entry.key}">${entry.value}</option>
 									            </c:forEach>
@@ -147,10 +154,16 @@
 					                </div>
 					                <div class="last">
 					                    <div class="vin"> <span>OR</span> 
-					                    		<input type="text" class="vin" value="" placeholder="Search by VIN">
+				                    		<input type="text" class="vin" value="" placeholder="Search by VIN">
+				                    		<input type="button" value="Search">
 			                    		</div> 
-			                    		<input type="button" value="Search">
-					                </div> <span class="reset">Reset</span>
+			                    		<c:if test="${logo != null}">
+						                    <div class="vin">
+					                    		<img src="/images/logos/${logo}" class="img-fluid" style="max-width: 120px;height: 50px;" alt="qatako Logo">
+				                    		</div>
+			                    		</c:if> 
+					                </div> 
+					                <span class="reset">Reset</span>
 					            </form:form>
 					        </div>
 					    </aside>
@@ -351,13 +364,14 @@
         </div>
     </div>
 </div>
+<div id="overlay"><div class="cv-spinner"><span class="spinner"></span></div></div>
 <script type="text/javascript">
 	$('.select2').select2();
 	
-    $("#yearId").val('<%=request.getParameter("year")==null?"!":request.getParameter("year")%>').trigger('change');
-    $("#makeId").val('<%=request.getParameter("make")==null?"!":request.getParameter("make")%>').trigger('change');
-    $("#modelId").val('<%=request.getParameter("model")==null?"!":request.getParameter("model")%>').trigger('change');
-    $("#subModelId").val('<%=request.getParameter("subModel")==null?"!":request.getParameter("subModel")%>').trigger('change');
+    $("#yearId").val('<%=request.getParameter("year")==null?"":request.getParameter("year")%>').trigger('change');
+    $("#makeId").val('<%=request.getParameter("make")==null?"":request.getParameter("make")%>').trigger('change');
+    $("#modelId").val('<%=request.getParameter("model")==null?"":request.getParameter("model")%>').trigger('change');
+    $("#subModelId").val('<%=request.getParameter("subModel")==null?"":request.getParameter("subModel")%>').trigger('change');
 </script>
 </body>
 </html>

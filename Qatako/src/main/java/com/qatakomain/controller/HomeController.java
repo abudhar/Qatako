@@ -1,6 +1,8 @@
 package com.qatakomain.controller;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.qatakomain.model.Home;
-import com.qatakomain.model.ProductBean;
+import com.qatakomain.model.ModelList;
+import com.qatakomain.model.Partbrands;
 import com.qatakomain.service.SEMAService;
 
 @Controller
@@ -35,9 +38,20 @@ public class HomeController {
 
 	@RequestMapping(path = "/shopping", method = {RequestMethod.GET, RequestMethod.POST})
 	public String shopping(@ModelAttribute Home home, Model model, HttpSession session) {
-		semaAPI.setDropdowns(home, model, session);
+		model.addAttribute("years", semaAPI.getYear());
+		if(validateStrings(home.getYear(), home.getMake(), home.getModel(), home.getSubModel())){
+			semaAPI.setDropdowns(home, model, session);
+		}
 		model.addAttribute("home", home);
-		ProductBean product = semaAPI.getProduct();
+//		ModelList modelList = semaAPI.getModel(home, session);
+//		int baseVehicleID = modelList.getModels()
+//				.stream()
+//				.filter(t -> home.getModel().equals(""+t.getModelID())).collect(Collectors.toList())
+//				.stream()
+//				.findFirst()
+//				.get()
+//				.getBaseVehicleID();
+//		List<Partbrands> products = semaAPI.getProducts("171628");
 		return "shopping";
 	}
 	
@@ -45,4 +59,14 @@ public class HomeController {
 	public String product() {
 		return "product";
 	}
+	
+	  public static boolean validateStrings(String... inputStrings) {
+	        for (String inputString : inputStrings) {
+	            if (inputString == null || inputString.trim().isEmpty() || "select".equalsIgnoreCase(inputString.trim())
+	                    || "null".equalsIgnoreCase(inputString.trim())) {
+	                return false;
+	            }
+	        }
+	        return true;
+	    }
 }

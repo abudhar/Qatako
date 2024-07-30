@@ -49,10 +49,10 @@ function fnValidateString(data){
 
 function fetchVin(){
         var vin =  $('#vinInput').val().trim();
-		let year = fnValidateString($("#yearId").val())?$("#yearId").val():"!";
-		let make = fnValidateString($("#makeId").val())?$("#makeId").val():"!";
-		let model= fnValidateString($("#modelId").val())?$("#modelId").val():"!";
-		let subModel= fnValidateString($("#subModelId").val())?$("#subModelId").val():"!";
+		let year = fnValidateString($("#yearId").val())?$("#yearId").val():"";
+		let make = fnValidateString($("#makeId").val())?$("#makeId").val():"";
+		let model= fnValidateString($("#modelId").val())?$("#modelId").val():"";
+		let subModel= fnValidateString($("#subModelId").val())?$("#subModelId").val():"";
         if (vin !== '') {
             var url = `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/${vin}?format=json`;
 
