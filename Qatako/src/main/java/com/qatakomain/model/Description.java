@@ -1,8 +1,8 @@
-
+/* Copyright 2024 freecodeformat.com */
 package com.qatakomain.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
+/* Time: 2024-07-30 16:39:6 @author freecodeformat.com @website http://www.freecodeformat.com/json2javabean.php */
 public class Description {
 
     @JsonProperty("LanguageCode")
