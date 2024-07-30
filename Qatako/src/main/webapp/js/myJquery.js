@@ -96,6 +96,7 @@ function fetchMake(yearId){
 	    success: function(data) {
 	        var select = $('#makeId');
 	        select.empty();
+		    select.append($('<option>', {value: "",text : "Make"}));
 	        $.each(data.Makes, function (i, item) {
 			    select.append($('<option>', { 
 			        value: item.MakeID,
@@ -114,10 +115,11 @@ function fetchModel(makeId){
 	    method: 'POST',
 	    contentType: 'application/json',
 	    dataType: 'json',
-	    data: JSON.stringify({ year: $("#yearId").val(), makeId: makeId}),
+	    data: JSON.stringify({ year: $("#yearId").val(), make: makeId}),
 	    success: function(data) {
 	        var select = $('#modelId');
 	        select.empty();
+	        select.append($('<option>', {value: "",text : "Model"}));
 	        $.each(data.Models, function (i, item) {
 			    select.append($('<option>', { 
 			        value: item.ModelID,
@@ -136,10 +138,11 @@ function fetchSubModel(modelId){
 	    method: 'POST',
 	    contentType: 'application/json',
 	    dataType: 'json',
-	    data: JSON.stringify({ year: $("#yearId").val(), makeId: $("#makeId").val(), modelId: modelId }),
+	    data: JSON.stringify({ year: $("#yearId").val(), make: $("#makeId").val(), model: modelId }),
 	    success: function(data) {
 	        var select = $('#subModelId');
 	        select.empty();
+	        select.append($('<option>', {value: "",text : "Sub-Model"}));
 	        $.each(data.Submodels, function (i, item) {
 			    select.append($('<option>', { 
 			        value: item.SubmodelID,

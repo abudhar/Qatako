@@ -2,9 +2,9 @@ package com.qatakomain.model;
 
 public class Home {
 	private String year;
-	private String makeId;
-	private String modelId;
-	private String subModelId;
+	private String make;
+	private String model;
+	private String subModel;
 
 	public String getYear() {
 		return year;
@@ -14,28 +14,28 @@ public class Home {
 		this.year = year;
 	}
 
-	public String getMakeId() {
-		return makeId;
+	public String getMake() {
+		return make;
 	}
 
-	public void setMakeId(String makeId) {
-		this.makeId = makeId;
+	public void setMake(String make) {
+		this.make = make;
 	}
 
-	public String getModelId() {
-		return modelId;
+	public String getModel() {
+		return model;
 	}
 
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
-	public String getSubModelId() {
-		return subModelId;
+	public String getSubModel() {
+		return subModel;
 	}
 
-	public void setSubModelId(String subModelId) {
-		this.subModelId = subModelId;
+	public void setSubModel(String subModel) {
+		this.subModel = subModel;
 	}
 
 }

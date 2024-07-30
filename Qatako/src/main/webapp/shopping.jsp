@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +15,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/shoping.html">Shop</a></li>
+            <li class="breadcrumb-item"><a href="/shopping">Shop</a></li>
         </ol>
     </nav>
 
@@ -101,103 +103,55 @@
         <div class="col-12 col-md-9">
         	<div class="row">
         		<div class="col-md-12">
-        			    <aside class="shop-top-widgets widget-area" data-select2-id="select2-data-1811-qzbp">
-					        <div id="product_vehicle_filter_widget-2" class="widget widget_product_vehicle_filter_widget"
-					            data-select2-id="select2-data-product_vehicle_filter_widget-2">
+        			    <aside class="shop-top-widgets widget-area">
+					        <div id="product_vehicle_filter_widget-2" class="widget widget_product_vehicle_filter_widget" >
 					            <div class="vehicle-filter-mobile-toggle">Vehicle filter</div>
-					            <form name="product-vehicle-filter"
-					                class="product-vehicle-filter vehicle-filter vin horizontal product-vehicle-filter-970368 active"
-					                data-rem="true" data-count="3" method="POST" data-select2-id="select2-data-1810-kwhc"
-					                data-gtm-form-interact-id="0">
-					                <div class="atts" data-select2-id="select2-data-1809-ol41">
-					                    <div class="vf-item make" data-attribute="make" data-label="Make"
-					                        data-select2-id="select2-data-1808-7u6s">
-					                        <select name="year" id="yearId"
-					                            data-select2-id="select2-data-25-kt2w" tabindex="-1" class="select2 dropdown">
-					                            <option class="default" value="!" data-select2-id="select2-data-1844-j335">Year</option>
-					                            <option value="2024">2024</option>
-												<option value="2023">2023</option>
-												<option value="2022">2022</option>
-												<option value="2021">2021</option>
-												<option value="2020">2020</option>
-												<option value="2019">2019</option>
-												<option value="2018">2018</option>
-												<option value="2017">2017</option>
-												<option value="2016">2016</option>
-												<option value="2015">2015</option>
-												<option value="2014">2014</option>
-												<option value="2013">2013</option>
-												<option value="2012">2012</option>
-												<option value="2006">2006</option>
-					                        </select>
+					            <form:form name="product-vehicle-filter" modelAttribute="home"
+					                cssClass="product-vehicle-filter vehicle-filter vin horizontal product-vehicle-filter-970368 active" method="POST" >
+					                <div class="atts">
+					                    <div class="vf-item make">
+											<form:select path="year" id="year" cssClass="select2"  onchange="fetchMake(this.value);">
+												<option class="default" value="">Year</option>
+									            <c:forEach var="entry" items="${years}">
+									                <form:option value="${entry.key}">${entry.value}</form:option>
+									            </c:forEach>
+									        </form:select>
 					                        &nbsp;&nbsp;
 					                        &nbsp;&nbsp;
-											<select name="make" id="makeId" data-select2-id="select2-data-19-tldk" tabindex="-1" class="select2 dropdown">
+					                        <form:select path="make" id="makeId" cssClass="select2 dropdown">
 					                            <option class="default" value="!">Make</option>
-												<option value="BMW">BMW</option>
-												<option value="Bentley">Bentley</option>
-												<option value="Cadillac">Cadillac</option>
-												<option value="Chevrolet">Chevrolet</option>
-												<option value="Dodge">Dodge</option>
-												<option value="Ford">Ford</option>
-												<option value="Honda">Honda</option>
-												<option value="Hyundai">Hyundai</option>
-												<option value="Infiniti">Infiniti</option>
-												<option value="KIA">KIA</option>
-												<option value="Lamborghini">Lamborghini</option>
-												<option value="Lexus">Lexus</option>
-												<option value="Lincoln">Lincoln</option>
-												<option value="Maybach">Maybach</option>
-												<option value="Mazda">Mazda</option>
-												<option value="Mercedes-Benz">Mercedes-Benz</option>
-												<option value="Mitsubishi">Mitsubishi</option>
-												<option value="Nissan">Nissan</option>
-												<option value="Porsche">Porsche</option>
-												<option value="Rolls-Royce">Rolls-Royce</option>
-												<option value="Toyota">Toyota</option>
-												<option value="Volkswagen">Volkswagen</option>
-												<option value="Volvo">Volvo</option>
-												<option value="Audi">Audi</option>
-					                        </select>
+									            <c:forEach var="entry" items="${makeList}">
+									                <form:option value="${entry.key}">${entry.value}</form:option>
+									            </c:forEach>
+									        </form:select>
 					                    </div>
-					                    <div class="vf-item year" data-select2-id="select2-data-1864-btlk">
-					                        
-					                    </div>
-					                    <div class="vf-item model" data-select2-id="select2-data-1847-0j2g">
-					                        <select name="model" id="modelId"
-					                            data-select2-id="select2-data-22-kie2" tabindex="-1" class="select2 dropdown"
-					                            >
-					                            <option class="default" value="!" data-select2-id="select2-data-1843-pvgg">Model</option>
-					                            <option value="1">1</option>
-					                            <option value="3">3</option>
-					                            <option value="5">5</option>
-					                            <option value="6">6</option>
-					                            <option value="X5">X5</option>
-					                            <option value="X6">X6</option>
-					                            <option value="325Ci">325Ci</option>
-					                            <option value="S4">S4</option>
+					                    <div class="vf-item year"></div>
+					                    <div class="vf-item model">
+					                        <select name="model" id="modelId" class="select2 dropdown">
+					                            <option class="default" value="!">Model</option>
+					                            <c:forEach var="entry" items="${modelList}">
+													<option value="${entry.key}">${entry.value}</option>
+									            </c:forEach>
 					                        </select>
 					                        &nbsp;&nbsp;
 					                        &nbsp;&nbsp;
-					                        <select name="submodel" id="subModelId"
-					                            data-select2-id="select2-data-28-ipi5" tabindex="-1" class="select2 dropdown"
-					                            >
-					                            <option class="default" value="!" data-select2-id="select2-data-1845-gikb">Sub-Model</option>
-					                            <option value="4.4">4.4</option>
-					                            <option value="3">3</option>s
+					                        <select name="submodel" id="subModelId" class="select2 dropdown">
+					                            <option class="default" value="!">Sub-Model</option>
+					                            <c:forEach var="entry" items="${subModelList}">
+													<option value="${entry.key}">${entry.value}</option>
+									            </c:forEach>
 					                        </select>
 					                    </div>
-					                    <div class="vf-item year" data-select2-id="select2-data-1864-btlk">
-					                        
-					                    </div>
+					                    <div class="vf-item year"></div>
 					                    
 					                </div>
 					                <div class="last">
-					                    <div class="vin"> <span>OR</span> <input type="text" class="vin" value=""
-					                            placeholder="Search by VIN" data-gtm-form-interact-field-id="0"></div> <input type="button"
-					                        value="Search">
+					                    <div class="vin"> <span>OR</span> 
+					                    		<input type="text" class="vin" value="" placeholder="Search by VIN">
+			                    		</div> 
+			                    		<input type="button" value="Search">
 					                </div> <span class="reset">Reset</span>
-					            </form>
+					            </form:form>
 					        </div>
 					    </aside>
         		</div>

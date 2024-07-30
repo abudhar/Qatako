@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <html>
 <head>
@@ -15,13 +16,12 @@
     <!-- Background Carousel -->
 	<div class="container mt-3">
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
+			<div class="col-md-12 align-centre">
 				<div class="elementor-widget-container">
 					<div class="et-vehicle-filter breakpoint-767 breakpoint-768-1023">
 						<div class="widget widget_product_vehicle_filter_widget">
 							<div class="vehicle-filter-mobile-toggle">Vehicle filter</div>
-							<form name="product-vehicle-filter"
+							<form name="product-vehicle-filter" action="${pageContext.request.contextPath}/shopping" method="post"
 								class="product-vehicle-filter vehicle-filter title-active vin vertical product-vehicle-filter-653931 active"
 								data-rem="true" data-count="2" method="POST">
 								<h5 style="text-align: left">Select your car</h5>
@@ -47,7 +47,7 @@
 									</div>
 
 									<div class="vf-item engine">
-										<select name="subModel" class="select2" onchange="fetchProduct(this.value);" id="subModelId">
+										<select name="subModel" class="select2" onchange="this.form.submit();" id="subModelId">
 											<option class="default" value="">Sub-Model</option>
 										</select>
 									</div>
@@ -64,7 +64,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-2"></div>
 		</div>	
 		<div class="row">
 			<div class="col-md-12">
@@ -90,187 +89,18 @@
 			</div>		
 		</div>
     </div>
-    <!-- /Background carousel -->
-    <!-- Make Model -->
-    <!-- <div class="container">
-        <div class="js-main-select-bar-holder main-select-bar-inherit-height" id="makeModelDiv">
-            <aside class="select-vehicle select-vehicle-spacer js-select-vehicle-spacer" id="makeModelDivInner">
-                <div class="select-vehicle-heading">Select Your Vehicle<div class="subheading">Provide vehicle details
-                        to
-                        confirm fitment</div>
-                </div>
-                <div class="content">
-                    <div class="select-vehicle-content-spacer" style="min-height: 48px;">
-                        <div class="select-vehicle-items _clear-modern">
-                            <div class="select-vehicle-col ">
-                                <div tabindex="0" data-placeholder="Year" id="yearDiv" onclick="showHideSearch('yearDiv')"
-                                    class="main-selector -big -with-marker -selected">
-                                    <small class="value" id="yearShow" >2024</small><span class="select-close-area"></span>
-                                    <ul class="list">
-                                        <li onclick="showVal('2024', 'yearShow')">2024</li>
-                                        <li onclick="showVal('2023', 'yearShow')">2023</li>
-                                        <li onclick="showVal('2022', 'yearShow')">2022</li>
-                                        <li onclick="showVal('2021', 'yearShow')">2021</li>
-                                        <li onclick="showVal('2020', 'yearShow')">2020</li>
-                                        <li onclick="showVal('2019', 'yearShow')">2019</li>
-                                        <li onclick="showVal('2018', 'yearShow')">2018</li>
-                                        <li onclick="showVal('2017', 'yearShow')">2017</li>
-                                        <li onclick="showVal('2016', 'yearShow')">2016</li>
-                                        <li onclick="showVal('2015', 'yearShow')">2015</li>
-                                        <li onclick="showVal('2014', 'yearShow')">2014</li>
-                                        <li onclick="showVal('2013', 'yearShow')">2013</li>
-                                        <li onclick="showVal('2012', 'yearShow')">2012</li>
-                                        <li onclick="showVal('2011', 'yearShow')">2011</li>
-                                        <li onclick="showVal('2010', 'yearShow')">2010</li>
-                                        <li onclick="showVal('2009', 'yearShow')">2009</li>
-                                        <li onclick="showVal('2008', 'yearShow')">2008</li>
-                                    </ul>
-                                    <small class="marker">1</small>
-                                </div>
-                            </div>
-                            <div class="select-vehicle-col ">
-                                <div tabindex="0" data-placeholder="Make" id="makeDiv" onclick="showHideSearch('makeDiv')"
-                                    class="main-selector -big  -with-marker -selected">
-                                    <small class="value" id="makeShow">Audi</small><span class="select-close-area"></span>
-                                    <ul class="list">
-                                        <li onclick="showVal('Toyota', 'makeShow')">Toyota</li>
-                                        <li onclick="showVal('Lexus', 'makeShow')">Lexus</li>
-                                        <li onclick="showVal('Benz', 'makeShow')">Benz</li>
-                                        <li onclick="showVal('BMW', 'makeShow')">BMW</li>
-                                        <li onclick="showVal('Honda', 'makeShow')">Honda</li>
-                                        <li onclick="showVal('Nissan', 'makeShow')">Nissan</li>
-                                        <li onclick="showVal('Audi', 'makeShow')">Audi</li>
-                                        <li onclick="showVal('Hyundai', 'makeShow')">Hyundai</li>
-                                        <li onclick="showVal('Ford', 'makeShow')">Ford</li>
-                                        <li onclick="showVal('GMC', 'makeShow')">GMC</li>
-                                    </ul>
-                                    <small class="marker">2</small>
-                                </div>
-                            </div>
-                            <div class="select-vehicle-col ">
-                                <div tabindex="0" data-placeholder="Model" id="modelDiv" onclick="showHideSearch('modelDiv')"
-                                    class="main-selector -big  -with-marker -selected">
-                                    <small id="modelShow" class="value">Q8</small><span class="select-close-area"></span>
-                                    <ul class="list">
-                                        <li onclick="showVal('Toyota Camry', 'modelShow')">Toyota Camry</li>
-                                        <li onclick="showVal('Toyota Hilux', 'modelShow')">Toyota Hilux</li>
-                                        <li onclick="showVal('Hyundai Elantra', 'modelShow')">Hyundai Elantra</li>
-                                        <li onclick="showVal('Chevrolet Tahoe', 'modelShow')">Chevrolet Tahoe</li>
-                                        <li onclick="showVal('Ford Expedition', 'modelShow')">Ford Expedition</li>
-                                        <li onclick="showVal('Honda Accord', 'modelShow')">Honda Accord</li>
-                                        <li onclick="showVal('Nissan Patrol', 'modelShow')">Nissan Patrol</li>
-                                        <li onclick="showVal('Kia Optima', 'modelShow')">Kia Optima</li>
-                                        <li onclick="showVal('Chevrolet Silverado', 'modelShow')">Chevrolet Silverado</li>
-                                        <li onclick="showVal('Hyundai Sonata', 'modelShow')">Hyundai Sonata</li>
-                                    </ul>
-                                    <small class="marker">3</small>
-                                </div>
-                            </div>
-                            <div class="select-vehicle-col ">
-                                <div tabindex="0" data-placeholder="Sub-Model" id="subModelDiv" onclick="showHideSearch('subModelDiv')"
-                                    class="main-selector -big  -with-marker -selected">
-                                    <small id="subModelShow" class="value">Saloon</small><span class="select-close-area"></span>
-                                    <ul class="list">
-                                        <li onclick="showVal('Toyota Camry', 'subModelShow')">Toyota Camry</li>
-                                        <li onclick="showVal('Toyota Hilux', 'subModelShow')">Toyota Hilux</li>
-                                        <li onclick="showVal('Hyundai Elantra', 'subModelShow')">Hyundai Elantra</li>
-                                        <li onclick="showVal('Chevrolet Tahoe', 'subModelShow')">Chevrolet Tahoe</li>
-                                        <li onclick="showVal('Ford Expedition', 'subModelShow')">Ford Expedition</li>
-                                        <li onclick="showVal('Honda Accord', 'subModelShow')">Honda Accord</li>
-                                        <li onclick="showVal('Nissan Patrol', 'subModelShow')">Nissan Patrol</li>
-                                        <li onclick="showVal('Kia Optima', 'subModelShow')">Kia Optima</li>
-                                        <li onclick="showVal('Chevrolet Silverado', 'subModelShow')">Chevrolet Silverado</li>
-                                        <li onclick="showVal('Hyundai Sonata', 'subModelShow')">Hyundai Sonata</li>
-                                    </ul>
-                                    <small class="marker">4</small>
-                                </div>
-                            </div>
-                            <div tabindex="0" class="select-vehicle-button  -after-selects" id="goBtn" onclick="javascript:window.location.href='/shopping'">GO</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="aside-slct-load -rounded"></div>
-            </aside>
-        </div>
-    </div> -->
-    <!-- //Gallery -->
     <!-- Featured Make -->
-    <div class="container">
+    <div class="container align-centre">
         <h4 class="my-4 text-left">Featured manufacturers</h4>
         <div class="row">
-            <!-- Repeat this block for each manufacturer -->
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Audi">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/audi.webp" alt="Audi">
-                    <div>Audi</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Bentley">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/bentley.webp" alt="Bentley">
-                    <div>Bentley</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Chevrolet">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/chevrolet.webp" alt="Chevrolet">
-                    <div>Chevrolet</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Ford">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/ford.webp" alt="Ford">
-                    <div>Ford</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Infiniti">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/infiniti.webp" alt="Infiniti">
-                    <div>Infiniti</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=KIA">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/kia.webp" alt="Kia">
-                    <div>Kia</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Toyota">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/toyota.webp" alt="Toyota">
-                    <div>Toyota</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Honda">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/honda.webp" alt="Honda">
-                    <div>Honda</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Hyundai">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/hyundai.webp" alt="Hyundai">
-                    <div>Hyundai</div>
-                </a>
-            </div>       
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Volkswagen">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/volkswagen.webp" alt="Volkswagen">
-                    <div>Volkswagen</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=Nissan">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/nissan.webp" alt="Nissan">
-                    <div>Nissan</div>
-                </a>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                <a href="/shopping?make=BMW">
-                    <img src="https://enovathemes.com/mobex/wp-content/themes/mobex/images//vehicle-logos/bmw.webp" alt="BMW">
-                    <div>BMW</div>
-                </a>
-            </div>     
+            <c:forEach var="logo" items="${logoNames}">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
+                    <a href="/shopping?make=${logo.toLowerCase()}">
+                        <img src="/images/logos/${logo}.png" alt="${logo}">
+                        <div>${logo.toUpperCase()}</div>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
     </div>
     <!-- Featured Make  -->
@@ -285,38 +115,16 @@
                 <div id="carouselExampleSlidesOnly" class="carousel slide w-100 mt-5" data-ride="carousel">
                     <ol class="carousel-indicators text-dark">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active bg-danger"></li>
-                        <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1" class=" bg-danger"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2" class=" bg-danger"></li> -->
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="row">
                                 <div class="col-md-6 col-6">
-                                    <!-- <div class="card">
-                                        <div class="" style="background-image: url('images/torxe_0dbl.jpg');">
-                                            <div class="mt-5 px-4 py-3">
-                                                <h1 class=" text-white">Torxe</h1>
-                                                <p class=" text-white">Torxe never compromises with details, and all its
-                                                    products are designed smartly - just like your vehicle. They last
-                                                    long and ride hard.</p>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="card">
                                         <img class="img-fluid" src="images/torxe_0dbl.jpg">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-6">
-                                    <!-- <div class="card">
-                                        <div class="" style="background-image: url('images/torxe_0dbl.jpg');">
-                                            <div class="mt-5 px-4 py-3">
-                                                <h1 class=" text-white">Torxe</h1>
-                                                <p class=" text-white">Torxe never compromises with details, and all its
-                                                    products are designed smartly - just like your vehicle. They last
-                                                    long and ride hard.</p>
-                                            </div>
-                                        </div>
-                                     </div> -->
                                     <div class="card">
                                         <img class="img-fluid" src="images/torxe_0dbl.jpg">
                                     </div>
@@ -372,186 +180,7 @@
         </div>
 
     </section>
-
-    <!-- Features Makes 
-    <section id="features">
-        <div class="container">
-            <div class="my-5">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#feature-make"
-                            role="tab" aria-controls="nav-home" aria-selected="true">Features Makes</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#feature-model"
-                            role="tab" aria-controls="nav-profile" aria-selected="false">Features Models</a>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent my-3">
-                    <div class="tab-pane fade show active my-3" id="feature-make" role="tabpanel"
-                        aria-labelledby="nav-home-tab">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade my-3" id="feature-model" role="tabpanel"
-                        aria-labelledby="nav-profile-tab">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-6">
-                                <div class="must-have-card">
-                                    <a href="#">
-                                        <h5 style="font-size: 1em; font-weight: bold;">Brake Pads</h5>
-                                        <p style="font-size: 0.8em;">Get Trusting Ships</p>
-                                        <span><i class="far fa-arrow-alt-circle-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </section>-->
-
-
-    <!-- //Features Makes -->
-
     <!-- Footer -->
-
     <footer>
         <div class="pt-1 ">
             <div class="container-fluid my-5">

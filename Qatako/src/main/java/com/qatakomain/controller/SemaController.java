@@ -1,5 +1,7 @@
 package com.qatakomain.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,18 +22,24 @@ public class SemaController {
 	private SEMAService semaAPI;
 	
 	@RequestMapping(value = "/makeList", method = RequestMethod.POST, consumes = { "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
-    public MakeList getMake(@RequestBody Home home) {
-        return semaAPI.getMake(home);
+    public MakeList getMake(@RequestBody Home home, HttpSession session) {
+		session.setAttribute("year", home.getYear());
+        return semaAPI.getMake(home, session);
     }
 	
 	@RequestMapping(value = "/modelList", method = RequestMethod.POST, consumes = { "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
-	public ModelList getModel(@RequestBody Home home) {
-		return semaAPI.getModel(home);
+	public ModelList getModel(@RequestBody Home home, HttpSession session) {
+		session.setAttribute("year", home.getYear());
+		session.setAttribute("make", home.getMake());
+		return semaAPI.getModel(home, session);
 	}
 	
 	@RequestMapping(value = "/subModelList", method = RequestMethod.POST, consumes = { "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
-	public SubModelList getSubModel(@RequestBody Home home) {
-		return semaAPI.getSubModel(home);
+	public SubModelList getSubModel(@RequestBody Home home, HttpSession session) {
+		session.setAttribute("year", home.getYear());
+		session.setAttribute("make", home.getMake());
+		session.setAttribute("model", home.getModel());
+		return semaAPI.getSubModel(home, session);
 	}
 	
 }

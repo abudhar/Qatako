@@ -612,7 +612,7 @@ footer ul li a {
   width: 40px;
   height: 40px;
   border: 4px #ddd solid;
-  border-top: 4px #2e93e6 solid;
+  border-top: 4px #e62e2e solid;
   border-radius: 50%;
   animation: sp-anime 0.8s infinite linear;
 }
@@ -623,4 +623,8 @@ footer ul li a {
 }
 .is-hide{
   display:none;
+}
+.align-centre{
+	padding-right: 8%;
+	padding-left: 8%; 
 }

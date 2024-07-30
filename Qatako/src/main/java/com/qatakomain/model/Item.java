@@ -46,6 +46,8 @@ public class Item {
     private String hazardousmaterialcode;
     @JsonProperty("MinimumOrderQuantity")
     private Minimumorderquantity minimumorderquantity;
+    @JsonProperty("BaseItemID")
+    private int baseItemID;
     public void setQuantityperapplication(Quantityperapplication quantityperapplication) {
          this.quantityperapplication = quantityperapplication;
      }
@@ -185,5 +187,11 @@ public class Item {
      public Minimumorderquantity getMinimumorderquantity() {
          return minimumorderquantity;
      }
+	public int getBaseItemID() {
+		return baseItemID;
+	}
+	public void setBaseItemID(int baseItemID) {
+		this.baseItemID = baseItemID;
+	}
 
 }
