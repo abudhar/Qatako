@@ -1,0 +1,5 @@
+- SEMA API Doubts
+- How to fetch the Brand List in API ?
+- How to map the Product based on Make Model
+- How to map the products to turn14
+- is API fine or we need to load the data by day by day using schedulers?
