@@ -267,7 +267,8 @@ public class SEMAService {
 			}
 		}
 		model.addAttribute("makeList", map);
-		model.addAttribute("logo", map.get(home.getMake()).toLowerCase()+".png");
+		String makeLogo  = isNumeric(home.getMake())?map.get(home.getMake()).toLowerCase()+".png":home.getMake()+".png";
+		model.addAttribute("logo", makeLogo);
 		map = new LinkedHashMap<>();
 		map  = session.getAttribute("modelList") != null ?(Map<String, String>) session.getAttribute("modelList") : null;
 		if(home.getYear() != null && home.getMake() != null && map == null) {
@@ -290,5 +291,13 @@ public class SEMAService {
 		model.addAttribute("subModelList", map);
 	}
 
+	public static boolean isNumeric(String str) { 
+	  try {  
+	    Double.parseDouble(str);  
+	    return true;
+	  } catch(NumberFormatException e){  
+	    return false;  
+	  }  
+	}
 
 }

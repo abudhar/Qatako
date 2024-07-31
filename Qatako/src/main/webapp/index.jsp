@@ -95,7 +95,7 @@
         <div class="row">
             <c:forEach var="logo" items="${logoNames}">
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 manufacturer-card">
-                    <a href="/shopping?make=${logo.toLowerCase()}">
+                    <a href="/shopping?make=${logo.toLowerCase()}&year=2024">
                         <img src="/images/logos/${logo}.png" alt="${logo}">
                         <div>${logo.toUpperCase()}</div>
                     </a>

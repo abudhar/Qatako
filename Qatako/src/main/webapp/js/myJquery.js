@@ -6,6 +6,22 @@ $(document).ready(function() {
     $(document).ajaxComplete(function() {
     	unblock();
     }); 
+    if(fnValidateString(page)){
+		const params = getQueryParams();
+		    if(fnValidateString(params.year)){
+		    	$("#yearId").val(params.year).trigger('change');
+		    }
+		    if(fnValidateString(params.make) && !isNumeric1(params.make)){
+                $("#makeId").val($("#makeId").find("option").filter(function() {
+                        return $(this).text().toLowerCase() === params.make.toLowerCase();
+                    }).val()).trigger('change');
+		    }
+		    if(fnValidateString(params.model) && !isNumeric1(params.model)){
+                $("#modelId").val($("#modelId").find("option").filter(function() {
+                        return $(this).text().toLowerCase() === params.model.toLowerCase();
+                    }).val()).trigger('change');
+		    }
+	}
     
 });
 
@@ -169,4 +185,23 @@ function block(){
 }
 function unblock(){
 	$("#overlay").fadeOut(300);
+}
+
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.substring(1);
+    const queryArray = queryString.split("&");
+
+    for (let i = 0; i < queryArray.length; i++) {
+        const pair = queryArray[i].split("=");
+        const key = decodeURIComponent(pair[0]);
+        const value = decodeURIComponent(pair[1] || '');
+        params[key] = value;
+    }
+
+    return params;
+}
+
+function isNumeric1(value) {
+    return !isNaN(value - parseFloat(value));
 }

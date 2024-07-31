@@ -39,9 +39,7 @@ public class HomeController {
 	@RequestMapping(path = "/shopping", method = {RequestMethod.GET, RequestMethod.POST})
 	public String shopping(@ModelAttribute Home home, Model model, HttpSession session) {
 		model.addAttribute("years", semaAPI.getYear());
-		if(validateStrings(home.getYear(), home.getMake(), home.getModel(), home.getSubModel())){
-			semaAPI.setDropdowns(home, model, session);
-		}
+		semaAPI.setDropdowns(home, model, session);
 		model.addAttribute("home", home);
 //		ModelList modelList = semaAPI.getModel(home, session);
 //		int baseVehicleID = modelList.getModels()

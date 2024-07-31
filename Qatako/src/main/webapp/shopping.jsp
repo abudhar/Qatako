@@ -10,13 +10,7 @@
     <link rel="stylesheet" href="Css/autoptimize_single_559aad522bf23163fc06b7738f3858a5.css" />
 </head>
 <body>
-	<style>
-		.vehicle-filter input,.vehicle-filter select {
-		    margin: 0; 
-		    width: 100% !important
-		}
-	</style>
-	<script type="text/javascript">var aptPath = '<%= request.getContextPath() %>'</script> 
+	<script type="text/javascript">var aptPath = '<%= request.getContextPath() %>'; var page = 'shopping';</script> 
 	<%@include file="header.jsp" %>
    <div class="container mt-4">
     <nav aria-label="breadcrumb">
@@ -125,7 +119,7 @@
 									        </form:select>
 					                        &nbsp;&nbsp;
 					                        &nbsp;&nbsp;
-					                        <form:select path="make" id="makeId" cssClass="select2 dropdown">
+					                        <form:select path="make" id="makeId" cssClass="select2 dropdown" onchange="fetchModel(this.value);">
 					                            <option class="default" value="">Make</option>
 									            <c:forEach var="entry" items="${makeList}">
 									                <form:option value="${entry.key}">${entry.value}</form:option>
@@ -134,7 +128,7 @@
 					                    </div>
 					                    <div class="vf-item year"></div>
 					                    <div class="vf-item model">
-					                        <select name="model" id="modelId" class="select2 dropdown">
+					                        <select name="model" id="modelId" class="select2 dropdown" onchange="fetchSubModel(this.value);">
 					                            <option class="default" value="">Model</option>
 					                            <c:forEach var="entry" items="${modelList}">
 													<option value="${entry.key}">${entry.value}</option>
@@ -157,11 +151,11 @@
 				                    		<input type="text" class="vin" value="" placeholder="Search by VIN">
 				                    		<input type="button" value="Search">
 			                    		</div> 
-			                    		<c:if test="${logo != null}">
-						                    <div class="vin">
+			                    		
+						                    <div class="vin" style="display: <c:if test="${logo != null}"> block;</c:if><c:if test="${logo == null}">none;</c:if> ">
 					                    		<img src="/images/logos/${logo}" class="img-fluid" style="max-width: 120px;height: 50px;" alt="qatako Logo">
 				                    		</div>
-			                    		</c:if> 
+			                    		
 					                </div> 
 					                <span class="reset">Reset</span>
 					            </form:form>
