@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.qatakomain.model.Home;
 import com.qatakomain.model.ModelList;
 import com.qatakomain.model.Partbrands;
+import com.qatakomain.model.ProductBean;
 import com.qatakomain.service.SEMAService;
 
 @Controller
@@ -50,6 +51,7 @@ public class HomeController {
 //				.get()
 //				.getBaseVehicleID();
 //		List<Partbrands> products = semaAPI.getProducts("171628");
+		ProductBean product = semaAPI.getProduct();
 		return "shopping";
 	}
 	

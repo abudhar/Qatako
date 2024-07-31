@@ -75,22 +75,20 @@ public class SEMAService {
 	}
 	
 	
-	public ProductBean getProductDetails() {
+	public ProductBean getProduct() {
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("token", tokenManager.getToken());
         formData.add("PIESVersion", "6.7");
-        ArrayList<String> brands = getBrands();
-        brands.stream().forEach(brand -> {
-        	formData.add("AAIA_BrandId", brand);
-        });
+        formData.add("AAIA_BrandId", "BBVR");
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(formData, headers);
 
         ResponseEntity<Product> response = semaAPI.postForEntity(SemaTokenManager.baseURL +"/export/piesexport", requestEntity, Product.class);
         String piesexport = response.getBody().getPiesexport();
+        
 		return xmlToBean(piesexport);
 
 	}
@@ -267,8 +265,10 @@ public class SEMAService {
 			}
 		}
 		model.addAttribute("makeList", map);
-		String makeLogo  = isNumeric(home.getMake())?map.get(home.getMake()).toLowerCase()+".png":home.getMake()+".png";
-		model.addAttribute("logo", makeLogo);
+		if(validateStrings(home.getMake())) {
+			String makeLogo  = isNumeric(home.getMake())?map.get(home.getMake()).toLowerCase()+".png":home.getMake()+".png";
+			model.addAttribute("logo", makeLogo);
+		}
 		map = new LinkedHashMap<>();
 		map  = session.getAttribute("modelList") != null ?(Map<String, String>) session.getAttribute("modelList") : null;
 		if(home.getYear() != null && home.getMake() != null && map == null) {
@@ -299,5 +299,15 @@ public class SEMAService {
 	    return false;  
 	  }  
 	}
+	
+  public static boolean validateStrings(String... inputStrings) {
+        for (String inputString : inputStrings) {
+            if (inputString == null || inputString.trim().isEmpty() || "select".equalsIgnoreCase(inputString.trim())
+                    || "null".equalsIgnoreCase(inputString.trim())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
